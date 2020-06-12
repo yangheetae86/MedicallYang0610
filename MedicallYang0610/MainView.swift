@@ -17,54 +17,57 @@ struct MainView: View {
     var width = UIScreen.main.bounds.width
     
     var body: some View {
-        VStack(spacing: 0) {//spacing: 0을 줌으로 간격이 없어진다
-            HStack {
-                Text("메디콜 공중전화")
-                    .padding()
-                Spacer()
-                Button(action: {
-                    self.goSetting = true
-                }) {
-                    Image(systemName: "gear")
+        GeometryReader {g in
+            VStack(spacing: 0) {//spacing: 0을 줌으로 간격이 없어진다
+                HStack {
+                    Text("메디콜 공중전화")
                         .padding()
+                    Spacer()
+                    Button(action: {
+                        self.goSetting = true
+                    }) {
+                        Image(systemName: "gear")
+                        .padding()
+                    }
                 }
+//                .frame(height: g.size.height/8)
                 .padding()
-            }
-            .padding()
-            .foregroundColor(.white)
-            .background(Color("배경0").edgesIgnoringSafeArea(.all))
-            
-            AppBar(index: self.$index, offset: self.$offset)
-            
-            GeometryReader { g in
+                .foregroundColor(.white)
+                .background(Color("배경0")
+                    .edgesIgnoringSafeArea(.all))
                 
-                HStack(spacing: 0){
-                    First()
-                        .frame(width: g.frame(in: .global).width)
-                    Scnd()
-                        .frame(width: g.frame(in: .global).width)
+                AppBar(index: self.$index, offset: self.$offset)
+                
+                GeometryReader { g in
+                    
+                    HStack(spacing: 0){
+                        First()
+                            .frame(width: g.frame(in: .global).width)
+                        Scnd()
+                            .frame(width: g.frame(in: .global).width)
+                    }
+                    .offset(x: self.offset)
+                    .padding(.trailing, self.width)
+                    .padding(.top)
+                        
+                    .highPriorityGesture(
+                        
+                        DragGesture()
+                            .onEnded({ value in
+                                if value.translation.width > 0 {
+                                    print("right")
+                                    self.changeView(left: false)
+                                }
+                                else {
+                                    print("left")
+                                    self.changeView(left: true)
+                                }
+                            }))
                 }
-                .offset(x: self.offset)
-                .padding(.trailing, self.width)
-                .padding(.top)
-                    
-                .highPriorityGesture(
-                    
-                    DragGesture()
-                        .onEnded({ value in
-                            if value.translation.width > 0 {
-                                print("right")
-                                self.changeView(left: false)
-                            }
-                            else {
-                                print("left")
-                                self.changeView(left: true)
-                            }
-                        }))
             }
+            .animation(.default)
+            .edgesIgnoringSafeArea(.all)
         }
-        .animation(.default)
-        .edgesIgnoringSafeArea(.all)
     }
     
     func changeView(left: Bool){

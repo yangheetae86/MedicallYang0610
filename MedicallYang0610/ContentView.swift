@@ -15,7 +15,7 @@ struct ContentView: View {
         VStack {
             if goSetting { // ==true
                 SettingView(goSetting: $goSetting)
-                    .transition(.scale)
+//                    .transition(.scale)
             } else { // else if goSetting==false
                 MainView(goSetting: $goSetting)
             }
@@ -26,7 +26,12 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        Group {
+//            ContentView()
+//                .previewDevice(PreviewDevice(rawValue: "iPhone 8"))
+            ContentView()
+                .previewDevice(PreviewDevice(rawValue: "iPhone 11"))
+        }
     }
 }
 

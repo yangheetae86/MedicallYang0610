@@ -15,33 +15,24 @@ struct SettingView: View {
     var body: some View {
         
         NavigationView {
-            GeometryReader {g in
-                VStack {
-                    ZStack {
-                        Text("설정")
-                            .background(Color("배경0").frame(width: g.size.width, height:g.size.height).edgesIgnoringSafeArea(.all))
-                        HStack {
-                            Button(action: {
-                                self.goSetting = false
-                            }) {
-                                Spacer()
-                                Text("취소")
-                            }
-                            Spacer()
-                        }
-                    }.padding()
-                        .foregroundColor(.white)
-                        .font(.headline)
-
-                    List{
-                        Text("약관 및 정책")
-                        Text("회사 소개")
-                        Text("자가 진단")
-                        Text("버전 정보")
-                    }
-                    .font(.body)
-                }
+            
+            
+            List {
+                Text("약관 및 정책")
+                Text("회사 소개")
+                Text("자가 진단")
+                Text("버전 정보")
             }
+            .navigationBarTitle(
+                Text("설정"),displayMode: .inline)
+                
+            .navigationBarItems(trailing:
+                NavigationLink("취소", destination:
+                    MainView(goSetting:$goSetting)
+                        .navigationBarTitle("")
+                        .navigationBarHidden(true)
+                )
+        )
         }
     }
 }
